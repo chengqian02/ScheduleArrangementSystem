@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户列表</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/linearicons/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/chartist/css/chartist-custom.css}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}">
+    <!-- GOOGLE FONTS -->
+    <link th:href="@{'https://fonts.googleapis.com/css'+'?family=Source+Sans+Pro:300,400,600,700'}" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        // 引入topbar
+        <nav th:replace="~{commons/bar_admin::topbar}"></nav>
+        //引入侧边栏
+        <div th:replace="~{commons/bar_admin::#sidebar-nav(activeUri='userList')}"></div>
+        //核心内容
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-heading" style="margin: 20px;">
+                                <h1 class="panel-title" style="font-size: 30px" ><b>所有用户信息</b></h1>
+                            </div>
+                            <!-- TABLE HOVER -->
+                            <div class="panel">
+
+                                <div class="panel-body" style="margin: 0 auto;">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>编号</th>
+                                                <th>姓名</th>
+                                                <th>密码</th>
+                                                <th>邮箱</th>
+                                                <th>性别</th>
+                                                <th>权限</th>
+                                                <th>生日</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="emps:${userPage.records}">
+                                                <td th:text="${emps.userId}"></td>
+                                                <td th:text="${emps.userName}"></td>
+                                                <td th:text="${emps.userPassword}"></td>
+                                                <td th:text="${emps.userEmail}"></td>
+                                                <td th:text="${emps.userGender==0?'女':'男'}"></td>
+                                                <td th:text="${emps.power==0?'管理员':'用户'}"></td>
+                                                <td th:text="${ emps.userBirth }"></td>
+                                                <td>
+<!--                                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" >编辑</button>-->
+                                                    <button class="btn btn-primary btn-toastr"><a style="color: white" th:href="@{/user/modify/{id}(id=${emps.userId})}">编辑</a></button>
+                                                    <button class="btn btn-danger btn-toastr"><a style="color: white" th:href="@{/user/delete/{id}(id=${emps.userId},pn=${userPage.current})}">删除</a></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+
+                                    </table>
+                                    <div >
+                                        <center>
+                                            <ul class="pagination">
+                                                <li class="disabled">
+                                                    <span style="color:deepskyblue;sex:black;border:1px solid #ddd;"><a th:href="@{/userList}">首页</a></span>
+                                                </li>
+                                                <li   class="disabled"><span style="color:deepskyblue;sex:black;border:1px solid #ddd;" ><a th:href="@{/userList(pn=${userPage.current}-1)}">上一页</a></span></li>
+                                                <li class="active" th:class="${num == userPage.current?'active':''}" th:each="num:${#numbers.sequence(1,userPage.pages)}">
+                                                    <a th:href="@{/userList(pn=${num})}" style="color:deepskyblue;sex:black;border:1px solid #ddd;" >[[${num}]]</a>
+                                                </li>
+                                                <li><a th:href="@{/userList(pn=(${userPage.current}+1)>${userPage.pages}?${userPage.pages}:${userPage.current}+1)}" href="javascript:void(0)" style="color:deepskyblue;sex:black;border:1px solid #ddd;">下一页</a></li>
+                                                <li><a  href="javascript:void(0)" style="color:deepskyblue;sex:black;border:1px solid #ddd;" th:href="@{/userList(pn=${userPage.pages})}">尾页</a></li>
+                                                <li><span class="[object Object]" style="color:deepskyblue;sex:black;border:1px solid #ddd;">共[[${userPage.pages}]]页</span></li>
+                                                <li><span class="[object Object]" style="color:deepskyblue;sex:black;border:1px solid #ddd;">共条[[${userPage.total}]]记录</span></li>
+                                            </ul>
+                                        </center>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- END TABLE HOVER -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+    </div>
+    <!-- Javascript -->
+    <script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!--    <script th:src="@{/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js}"></script>-->
+<!--    <script th:src="@{/assets/vendor/chartist/js/chartist.min.js}"></script>-->
+    <script th:src="@{/assets/scripts/klorofil-common.js}"></script>
+    <script>
+        $(function() {
+            var data, options;
+
+            // headline charts
+            data = {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                series: [
+                    [23, 29, 24, 40, 25, 24, 35],
+                    [14, 25, 18, 34, 29, 38, 44],
+                ]
+            };
+
+            options = {
+                height: 300,
+                showArea: true,
+                showLine: false,
+                showPoint: false,
+                fullWidth: true,
+                axisX: {
+                    showGrid: false
+                },
+                lineSmooth: false,
+            };
+
+            new Chartist.Line('#headline-chart', data, options);
+
+
+            // visits trend charts
+            data = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                series: [{
+                    name: 'series-real',
+                    data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+                }, {
+                    name: 'series-projection',
+                    data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+                }]
+            };
+
+            options = {
+                fullWidth: true,
+                lineSmooth: false,
+                height: "270px",
+                low: 0,
+                high: 'auto',
+                series: {
+                    'series-projection': {
+                        showArea: true,
+                        showPoint: false,
+                        showLine: false
+                    },
+                },
+                axisX: {
+                    showGrid: false,
+
+                },
+                axisY: {
+                    showGrid: false,
+                    onlyInteger: true,
+                    offset: 0,
+                },
+                chartPadding: {
+                    left: 20,
+                    right: 20
+                }
+            };
+
+            new Chartist.Line('#visits-trends-chart', data, options);
+
+
+            // visits chart
+            data = {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                series: [
+                    [6384, 6342, 5437, 2764, 3958, 5068, 7654]
+                ]
+            };
+
+            options = {
+                height: 300,
+                axisX: {
+                    showGrid: false
+                },
+            };
+
+            new Chartist.Bar('#visits-chart', data, options);
+
+
+            // real-time pie chart
+            var sysLoad = $('#system-load').easyPieChart({
+                size: 130,
+                barColor: function(percent) {
+                    return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
+                },
+                trackColor: 'rgba(245, 245, 245, 0.8)',
+                scaleColor: false,
+                lineWidth: 5,
+                lineCap: "square",
+                animate: 800
+            });
+
+            var updateInterval = 3000; // in milliseconds
+
+            setInterval(function() {
+                var randomVal;
+                randomVal = getRandomInt(0, 100);
+
+                sysLoad.data('easyPieChart').update(randomVal);
+                sysLoad.find('.percent').text(randomVal);
+            }, updateInterval);
+
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+        });
+    </script>
+    <!--    模态框-->
+<!--    <script>-->
+<!--        $('#myModal').on('show.bs.modal', function (event) {-->
+<!--            var button = $(event.relatedTarget)-->
+<!--            var id = button.data('id')-->
+<!--            var name = button.data('name')-->
+<!--            var email = button.data('email')-->
+<!--            var age = button.data('age')-->
+<!--            var modal = $(this)-->
+<!--            modal.find('.modal-body id').val(id)-->
+<!--            modal.find('.modal-body name').val(name)-->
+<!--            modal.find('.modal-body email').val(email)-->
+<!--            modal.find('.modal-body age').val(age)-->
+<!--        })-->
+<!--    </script>-->
+</body>
+</html>

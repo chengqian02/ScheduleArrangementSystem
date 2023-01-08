@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加赛程</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/linearicons/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/chartist/css/chartist-custom.css}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}">
+    <!-- GOOGLE FONTS -->
+    <link th:href="@{'https://fonts.googleapis.com/css'+'?family=Source+Sans+Pro:300,400,600,700'}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-datetimepicker.min.css}">
+
+</head>
+<body>
+    <div id="wrapper">
+        // 引入topbar
+        <nav th:replace="~{commons/bar_admin::topbar}"></nav>
+        //引入侧边栏
+        <div th:replace="~{commons/bar_admin::#sidebar-nav(activeUri='scheduleAdd')}"></div>
+
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <h2 class="page-title"><b>添加赛程</b></h2>
+                    <div id="toastr-demo" class="panel">
+                        <div class="container-fluid"  style="float: none;  ">
+                            <div style="width: 50% ;margin: 0 auto; font-size: 25px; padding-top: 50px " >
+                                <form th:action="@{/scheduleInfoAdd}" method="post" >
+
+                                    <input type="hidden" name="matchId" th:if="${sceduleInfo}!=null" th:value="${sceduleInfo.matchId}">
+                                    <div class="form-group" >
+                                        <label>球队</label>
+                                        <select name="teamName" class="form-control">
+                                            <!--                                <option th:each="mem:${mems}" th:value="${mem.id}" th:text="${mem.member}"></option>-->
+                                            <option value="-1" disabled selected hidden>请选择</option>
+                                            <option  th:each="team:${teamList}" th:selected="${sceduleInfo}?${sceduleInfo.teamName}==${team.teamName}" style="color: black;" th:text="${team.teamName}"></option>
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label>比赛对手</label>
+                                        <select name="opponent" class="form-control">
+                                            <!--                                <option th:each="mem:${mems}" th:value="${mem.id}" th:text="${mem.member}"></option>-->
+                                            <option value="-1" disabled selected hidden>请选择</option>
+                                            <option  th:each="team:${teamList}" th:selected="${sceduleInfo}?${sceduleInfo.teamName}==${team.teamName}" style="color: black;" th:text="${team.teamName}"></option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>比赛时间</label>
+                                        <input id="datetime" type="text"  th:value="${sceduleInfo}!=null?${sceduleInfo.dateTime}:''" name="dateTime" class="form-control" placeholder="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>比赛地点</label>
+                                        <select name="site" class="form-control">
+                                            <!--                                <option th:each="mem:${mems}" th:value="${mem.id}" th:text="${mem.member}"></option>-->
+                                            <option value="-1" disabled selected hidden>请选择</option>
+
+                                            <option th:each="field:${fieldlist}"    th:selected="${sceduleInfo}?${sceduleInfo.site}==${field.fieldName}"  style="color: black;" th:text="${field.fieldName}"></option>
+
+                                        </select>
+                                    </div>
+                                    <center>
+                                        <button  type="submit" class="btn-lg btn-primary">添加</button>
+                                    </center>
+                                </form>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!--    <script th:src="@{/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js}"></script>-->
+<!--    <script th:src="@{/assets/vendor/chartist/js/chartist.min.js}"></script>-->
+    <script th:src="@{/assets/scripts/klorofil-common.js}"></script>
+    <script th:src="@{/assets/js/bootstrap-datetimepicker.js}"></script>
+    <script type="text/javascript">
+        $("#datetime").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            minView:'hour',
+            language: 'zh-CN',
+            autoclose:true,
+            startDate:"1900-01-01"
+        }).on("click",function(){
+            $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+        });
+    </script>
+
+</body>
+</html>

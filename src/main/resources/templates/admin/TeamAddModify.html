@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title  >[[${teaminfo}!=null?修改球队信息:添加球队]]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/linearicons/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/chartist/css/chartist-custom.css}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}">
+    <!-- GOOGLE FONTS -->
+    <link th:href="@{'https://fonts.googleapis.com/css'+'?family=Source+Sans+Pro:300,400,600,700'}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-datetimepicker.min.css}">
+
+</head>
+<body>
+    <div id="wrapper">
+        // 引入topbar
+        <nav th:replace="~{commons/bar_admin::topbar}"></nav>
+        //引入侧边栏
+        <div th:replace="~{commons/bar_admin::#sidebar-nav(activeUri=(${teaminfo}!=null?'TeamList':'addTeam'))}"></div>
+
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <h2 class="page-title"><b>[[${teaminfo}!=null?修改球队信息:添加球队]]</b></h2>
+                    <div id="toastr-demo" class="panel">
+                        <div class="container-fluid"  style="float: none;  ">
+                            <div style="width: 50% ;margin: 0 auto; font-size: 25px; padding-top: 50px"  >
+                                <form th:action="@{/teamAddModify}" method="post" >
+                                    <input type="hidden" name="id" th:if="${teaminfo}!=null" th:value="${teaminfo.id}">
+                                    <div class="form-group" >
+                                        <label>球队名</label>
+                                        <input  style="width: 100%" name="teamName" type="text" class="form-control" placeholder="球队名" th:value="${teaminfo}!=null?${teaminfo.teamName}:''">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>场馆</label>
+                                        <input  style="width: 100%" name="stadium" type="text" class="form-control" placeholder="场馆" th:value="${teaminfo}!=null?${teaminfo.stadium}:''">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>所在地</label>
+                                        <input  style="width: 100%" name="location" type="text" class="form-control" placeholder="所在地" th:value="${teaminfo}!=null?${teaminfo.location}:''">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>主教练</label>
+                                        <input  style="width: 100%" name="coach" type="text" class="form-control" placeholder="主教练" th:value="${teaminfo}!=null?${teaminfo.coach}:''">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>总经理</label>
+                                        <input  style="width: 100%" name="generalManager" type="text" class="form-control" placeholder="拥有者" th:value="${teaminfo}!=null?${teaminfo.generalManager}:''">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>拥有者</label>
+                                        <input  style="width: 100%" name="owner" type="text" class="form-control" placeholder="拥有者" th:value="${teaminfo}!=null?${teaminfo.owner}:''">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>联盟</label>
+                                        <select name="teamUnion" class="form-control">
+                                            <!--                                <option th:each="mem:${mems}" th:value="${mem.id}" th:text="${mem.member}"></option>-->
+                                            <option value="东部联盟" disabled selected hidden>请选择</option>
+                                            <option value="东部联盟" th:selected="${teaminfo}?${teaminfo.teamUnion}=='东部联盟'"  style="color: black;" name="power">东部联盟</option>
+                                            <option value="西部联盟" th:selected="${teaminfo}?${teaminfo.teamUnion}=='西部联盟'" style="color: black;"  name="power">西部联盟</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>赛区</label>
+                                        <select name="division" class="form-control">
+                                            <!--                                <option th:each="mem:${mems}" th:value="${mem.id}" th:text="${mem.member}"></option>-->
+                                            <option value="东南赛区" disabled selected hidden>请选择</option>
+                                            <option value="东南赛区"  th:selected="${teaminfo}?${teaminfo.division}=='东南赛区'" style="color: black;" name="power">东南赛区</option>
+                                            <option value="大西洋赛区" th:selected="${teaminfo}?${teaminfo.division}=='大西洋赛区'" style="color: black;"  name="power">大西洋赛区</option>
+                                            <option value="中部赛区" th:selected="${teaminfo}?${teaminfo.division}=='中部赛区'" style="color: black;" name="power">中部赛区</option>
+                                            <option value="西北赛区"th:selected="${teaminfo}?${teaminfo.division}=='西北赛区'" style="color: black;"  name="power">西北赛区</option>
+                                            <option value="西南赛区" th:selected="${teaminfo}?${teaminfo.division}=='西南赛区'" style="color: black;" name="power">西南赛区</option>
+                                            <option value="太平洋赛区" th:selected="${teaminfo}?${teaminfo.division}=='太平洋赛区'"style="color: black;"  name="power">太平洋赛区</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" th:if="${teaminfo}==null">
+                                        <label>联系方式</label>
+                                        <input style="width: 100%" name="phone" type="text" class="form-control" >
+                                    </div>
+                                    <center style="margin-top: 30px">
+                                        <button  type="submit" class="btn-lg btn-primary">[[${teaminfo}!=null?修改:添加]]</button>
+                                    </center>
+                                </form>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!--    <script th:src="@{/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js}"></script>-->
+<!--    <script th:src="@{/assets/vendor/chartist/js/chartist.min.js}"></script>-->
+    <script th:src="@{/assets/scripts/klorofil-common.js}"></script>
+    <script th:src="@{/assets/js/bootstrap-datetimepicker.js}"></script>
+    <script type="text/javascript">
+        $("#datetime").datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            minView:'hour',
+            language: 'zh-CN',
+            autoclose:true,
+            startDate:"1900-01-01"
+        }).on("click",function(){
+            $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+        });
+    </script>
+
+</body>
+</html>

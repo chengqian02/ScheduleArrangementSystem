@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--topbar-->
+<nav class="navbar navbar-default navbar-fixed-top" th:fragment="topbar">
+    <div class="brand">
+        <a th:href="@{main_user.html}"><img th:src="@{/assets/img/logo-dark.png}" alt="Klorofil Logo" class="img-responsive logo"></a>
+    </div>
+    <div class="container-fluid">
+        <div class="navbar-btn">
+            <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+        </div>
+        <form class="navbar-form navbar-left">
+            <div class="input-group">
+                <input type="text" value="" class="form-control" placeholder="Search dashboard...">
+                <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+            </div>
+        </form>
+
+        <div id="navbar-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown"><img th:src="@{/assets/img/user.png}" class="img-circle" alt="Avatar"> <span>[[${session.loginUser}]]</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/userselfprofile}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+<!--                        <li><a th:href="@{#}"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>-->
+<!--                        <li><a th:href="@{#}"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>-->
+                        <li><a th:href="@{/logout}"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="sidebar-nav" class="sidebar" th:fragment="">
+    <div class="sidebar-scroll">
+        <nav>
+            <ul class="nav">
+<!--                <li>-->
+<!--                    <a th:href="@{/main_user.html}" class="active" th:class="${activeUri=='main.html'?'nav-link active':'nav-link'}">-->
+<!--                        <i class="lnr lnr-home"></i>-->
+<!--                        <span>首页</span></a>-->
+<!--                </li>-->
+                <li><a th:href="@{/registration}"  th:class="${activeUri=='registration'?'nav-link active':'nav-link'}" class=""><i class="lnr lnr-code"></i> <span>报名申请</span></a></li>
+<!--                <li><a th:href="@{charts.html}" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>-->
+
+<!--                <li><a th:href="@{notifications.html}" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>-->
+
+<!--                <li></li>-->
+<!--                <li><a th:href="@{tables.html}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>-->
+                <li><a th:href="@{/userselfprofile}"  th:class="${activeUri=='userProfile'?'nav-link active':'nav-link'}" class=""> <i class="lnr lnr-text-format"></i> <span>查看个人信息</span></a></li>
+                <li><a th:href="@{/userScheduleQuery }" th:class="${activeUri=='userScheduleQuery'?'nav-link active':'nav-link'}" class=""><i class="lnr lnr-linearicons"></i> <span>查看赛程信息</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

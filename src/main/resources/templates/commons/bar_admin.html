@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--topbar-->
+<nav class="navbar navbar-default navbar-fixed-top" th:fragment="topbar">
+    <div class="brand">
+        <a th:href="@{/main_admin.html}"><img th:src="@{/assets/img/logo-dark.png}" alt="Klorofil Logo" class="img-responsive logo"></a>
+    </div>
+    <div class="container-fluid">
+        <div class="navbar-btn">
+            <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+        </div>
+        <form class="navbar-form navbar-left">
+            <div class="input-group">
+                <input type="text" value="" class="form-control" placeholder="Search dashboard...">
+                <span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
+            </div>
+        </form>
+<!--        <div class="navbar-btn navbar-btn-right">-->
+<!--            <a class="btn btn-success update-pro" th:href="@{'#downloads/klorofil-pro-bootstrap-admin-dashboard-template/'+'?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro'}" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>-->
+<!--        </div>-->
+        <div id="navbar-menu">
+            <ul class="nav navbar-nav navbar-right">
+<!--                <li class="dropdown">-->
+<!--                    <a th:href="@{#}" class="dropdown-toggle icon-menu" data-toggle="dropdown">-->
+<!--                        <i class="lnr lnr-alarm"></i>-->
+<!--                        <span class="badge bg-danger">5</span>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu notifications">-->
+<!--                        <li><a th:href="@{#}" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>-->
+<!--                        <li><a th:href="@{#}" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>-->
+<!--                        <li><a th:href="@{#}" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>-->
+<!--                        <li><a th:href="@{#}" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>-->
+<!--                        <li><a th:href="@{#}" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>-->
+<!--                        <li><a th:href="@{#}" class="more">See all notifications</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="dropdown">-->
+<!--                    <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li><a th:href="@{#}">Basic Use</a></li>-->
+<!--                        <li><a th:href="@{#}">Working With Data</a></li>-->
+<!--                        <li><a th:href="@{#}">Security</a></li>-->
+<!--                        <li><a th:href="@{#}">Troubleshooting</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+                <li class="dropdown">
+                    <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown"><img th:src="@{/assets/img/user.png}" class="img-circle" alt="Avatar"> <span>[[${session.loginUser}]]</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/selfprofile}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+<!--                        <li><a th:href="@{#}"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>-->
+<!--                        <li><a th:href="@{#}"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>-->
+                        <li><a th:href="@{/logout}"><i class="lnr lnr-exit"></i> <span>退出</span></a></li>
+                    </ul>
+                </li>
+                <!-- <li>
+                    <a class="update-pro" th:href="@{#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="sidebar-nav" class="sidebar" th:fragment="">
+    <div class="sidebar-scroll">
+        <nav>
+            <ul class="nav">
+<!--                <li>-->
+<!--                    <a th:href="@{main_admin.html}" class="active" th:class="${activeUri=='main.html'?'nav-link active':'nav-link'}">-->
+<!--                        <i class="lnr lnr-home"></i>-->
+<!--                        <span>首页</span></a>-->
+<!--                </li>-->
+<!--                <li><a th:href="@{elements.html}" class=""><i class="lnr lnr-code"></i> <span>Elements</span></a></li>-->
+<!--                <li><a th:href="@{charts.html}" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>-->
+
+<!--                <li><a th:href="@{schedule.html}" class=""><i class="lnr lnr-alarm"></i> <span>赛程安排管理</span></a></li>-->
+
+                <li></li>
+
+                <li>
+                    <a th:href="@{#subPages3}" data-toggle="collapse" class="collapsed" th:class="${activeUri=='SceduleQuery' ||activeUri=='schedule' ||activeUri=='scheduleAdd'? 'nav-link active':'nav-link'}"><i class="lnr lnr-cog"></i> <span>赛程管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages3" class="collapse" >
+                        <ul class="nav">
+                            <li><a th:href="@{/scheduleAdd}" class="" th:class="${activeUri=='scheduleAdd'?'nav-link active':'nav-link'}">添加赛程</a></li>
+
+                            <li><a th:href="@{/unicyclic}" class="" th:class="${activeUri=='schedule'?'nav-link active':'nav-link'}">循环赛赛程安排</a></li>
+                            <li><a th:href="@{/randomScheduling}" class="" th:class="${activeUri=='randomScheduling'?'nav-link active':'nav-link'}">随机赛程安排</a></li>
+                            <li><a th:href="@{/scheduleQuery}" class="" th:class="${activeUri=='SceduleQuery'?'nav-link active':'nav-link'}">赛程信息管理</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a th:href="@{#subPages4}" data-toggle="collapse" class="collapsed" th:class="${activeUri=='fieldList' ||activeUri=='fieldadd'? 'nav-link active':'nav-link'}"><i class="lnr lnr-cog"></i> <span>比赛场地管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages4" class="collapse" >
+                        <ul class="nav">
+                            <li><a th:href="@{/fieldadd}" class="" th:class="${activeUri=='fieldadd'?'nav-link active':'nav-link'}">添加场地</a></li>
+                            <li><a th:href="@{/fieldList}" class="" th:class="${activeUri=='fieldList'?' active':''}"> <span>场地信息</span></a></li>
+
+                        </ul>
+                    </div>
+                </li>
+<!--                <li><a th:href="@{tables.html}" class=""><i class="lnr lnr-dice"></i> <span>公告管理</span></a></li>-->
+                <li>
+                    <a th:href="@{#subPages5}" data-toggle="collapse" class="collapsed" th:class="${activeUri=='TeamList' ||activeUri=='teamExamine' ||activeUri=='addTeam'?'nav-link active':'nav-link'}"><i class="lnr lnr-cog"></i> <span>球队管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages5" class="collapse" >
+                        <ul class="nav">
+                            <li><a th:href="@{/teamExamine}" class="" th:class="${activeUri=='teamExamine'?'nav-link active':'nav-link'}">球队审核</a></li>
+                            <li><a th:href="@{/addTeam}" class="" th:class="${activeUri=='addTeam'?'nav-link active':'nav-link'}">添加球队</a></li>
+                            <li><a th:href="@{/teamList}" class="" th:class="${activeUri=='TeamList'?' active':''}">球队信息管理</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a th:href="@{#subPages2}" data-toggle="collapse" class="collapsed" th:class="${activeUri=='addList' ||activeUri=='userList'?'nav-link active':'nav-link'}"><i class="lnr lnr-cog"></i> <span>用户管理</span><i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages2" class="collapse" >
+                        <ul class="nav">
+
+                            <li><a th:href="@{/addUser}" class="" th:class="${activeUri=='addList'?'nav-link active':'nav-link'}">添加用户</a></li>
+                            <li><a th:href="@{/userList}" class="" th:class="${activeUri=='userList'?'nav-link active':'nav-link'}">用户列表</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a th:href="@{#subPages}" th:class="${activeUri=='userProfile' ||activeUri=='userProfile'?'nav-link active':'nav-link'}" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>个人中心</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPages" class="collapse ">
+                        <ul class="nav">
+                            <li><a th:href="@{/selfprofile}"  th:class="${activeUri=='userProfile'?'nav-link active':'nav-link'}" class="">个人信息</a></li>
+                            <!--                            <li><a th:href="@{page-login.html}" class="">Login</a></li>-->
+                            <!--                            <li><a th:href="@{page-lockscreen.html}" class="">Lockscreen</a></li>-->
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>球队信息审核</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/linearicons/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/vendor/chartist/css/chartist-custom.css}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}">
+    <!-- GOOGLE FONTS -->
+    <link th:href="@{'https://fonts.googleapis.com/css'+'?family=Source+Sans+Pro:300,400,600,700'}" rel="stylesheet">
+    <style type="text/css">
+        .th_style th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        // 引入topbar
+        <nav th:replace="~{commons/bar_admin::topbar}"></nav>
+        //引入侧边栏
+        <div th:replace="~{commons/bar_admin::#sidebar-nav(activeUri='teamExamine')}"></div>
+        //核心内容
+        <div class="main">
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-heading" style="margin: 20px;">
+                                <h1 class="panel-title" style="font-size: 30px" ><b>球队信息审核</b></h1>
+                            </div>
+                            <div class="dropdown" style="margin: 20px">
+                                 <span>每页显示</span> <button style="border-radius: 10%" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    [[${pnum}]]
+                                    <span class="caret"></span>
+                                </button><span>条记录</span>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a th:href="@{/teamExamine(pnum=5)}" >5</a></li>
+                                    <li><a th:href="@{/teamExamine(pnum=10)}">10</a></li>
+                                    <li><a th:href="@{/teamExamine(pnum=20)}">20</a></li>
+                                    <li><a th:href="@{/teamExamine(pnum=50)}">50</a></li>
+                                    <li><a th:href="@{/teamExamine(pnum=100)}">100</a></li>
+                                </ul>
+                            </div>
+                            <!-- TABLE HOVER -->
+                            <div class="panel">
+
+                                <div class="panel-body" style="margin: 0 auto; float: none; clear: both;">
+                                    <table class="table table-hover" >
+                                        <thead class="th_style">
+                                            <tr >
+                                                <th >球队名</th>
+                                                <th>场馆</th>
+                                                <th>所在地</th>
+                                                <th>主教练</th>
+                                                <th>总经理</th>
+                                                <th>拥有者</th>
+                                                <th>赛区</th>
+                                                <th>联系方式</th>
+                                                <th>申请时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-align: center">
+                                            <tr th:each="sceduleinfo:${ RegistrationPage.records}">
+                                                <td th:text="${sceduleinfo.teamName}"></td>
+                                                <td th:text="${sceduleinfo.stadium}"></td>
+                                                <td th:text="${sceduleinfo.location}"></td>
+                                                <td th:text="${sceduleinfo.coach}"></td>
+                                                <td th:text="${sceduleinfo.generalManager}"></td>
+                                                <td th:text="${sceduleinfo.owner}"></td>
+                                                <td th:text="${sceduleinfo.teamUnion}+'-'+${sceduleinfo.division}"></td>
+                                                <td th:text="${sceduleinfo.phone}"></td>
+                                                <td th:text="${sceduleinfo.registrationDate}"></td>
+<!--                                                <td th:text="${sceduleinfo.numberOfChampions}"></td>-->
+<!--                                                <td th:text="${sceduleinfo.teamUnion}+'-'+${sceduleinfo.division}"></td>-->
+                                                <td>
+<!--                                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" >编辑</button>-->
+                                                    <button class="" th:class="${sceduleinfo.registrationPower==0?'btn btn-primary btn-toastr':'btn btn-warning btn-toastr'}" ><a th:text="${sceduleinfo.registrationPower==0?'审核':'已审核'}"  th:href="@{${sceduleinfo.registrationPower==0?'/teamCheck/'+sceduleinfo.id:'#'}}" style="color: white" ></a></button>
+                                                    <button class="btn btn-danger btn-toastr"><a th:href="@{/registrrationInfoDelete/{id}(id=${sceduleinfo.id},pn=${ RegistrationPage.current})}" style="color: white">删除</a></button>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+
+                                    </table>
+                                    <div >
+                                        <center>
+                                            <ul class="pagination">
+
+                                                <li class="disabled">
+                                                    <span style="color:deepskyblue;sex:black;border:1px solid #ddd;"><a th:href="@{/teamExamine(pnum=${pnum})}">首页</a></span>
+                                                </li>
+                                                <li   class="disabled"><span style="color:deepskyblue;sex:black;border:1px solid #ddd;" ><a th:href="@{/teamExamine(pn=${ RegistrationPage.current}-1,pnum=${pnum})}">上一页</a></span></li>
+                                                <li class="active" th:class="${num ==  RegistrationPage.current?'active':''}" th:each="num:${#numbers.sequence(1, RegistrationPage.pages)}">
+                                                    <a th:href="@{/teamExamine(pn=${num},pnum=${pnum})}" style="color:deepskyblue;sex:black;border:1px solid #ddd;" >[[${num}]]</a>
+                                                </li>
+<!--                                                <li class="pagination"></li>-->
+                                                <li><a th:href="@{/teamExamine(pn=(${ RegistrationPage.current}+1)>${ RegistrationPage.pages}?${ RegistrationPage.pages}:${ RegistrationPage.current}+1,pnum=${pnum})}" href="javascript:void(0)" style="color:deepskyblue;sex:black;border:1px solid #ddd;">下一页</a></li>
+                                                <li><a  href="javascript:void(0)" style="color:deepskyblue;sex:black;border:1px solid #ddd;" th:href="@{/teamExamine(pn=${ RegistrationPage.pages},pnum=${pnum})}">尾页</a></li>
+                                                <li><span class="[object Object]" style="color:deepskyblue;sex:black;border:1px solid #ddd;">共[[${ RegistrationPage.pages}]]页</span></li>
+                                                <li><span class="[object Object]" style="color:deepskyblue;sex:black;border:1px solid #ddd;">共条[[${ RegistrationPage.total}]]记录</span></li>
+                                            </ul>
+                                        </center>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <!-- END TABLE HOVER -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- END MAIN CONTENT -->
+        </div>
+    </div>
+    <!-- Javascript -->
+    <script th:src="@{/assets/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!--    <script th:src="@{/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js}"></script>-->
+<!--    <script th:src="@{/assets/vendor/chartist/js/chartist.min.js}"></script>-->
+    <script th:src="@{/assets/scripts/klorofil-common.js}"></script>
+<!--    <script type="text/javascript">-->
+<!--        $(function(){-->
+<!--            $(".pagination").createPage({-->
+<!--                totalPage:30,-->
+<!--                currPage:14,-->
+<!--                backFn:function(p){-->
+<!--                    console.log("回调函数："+p);-->
+<!--                }-->
+<!--            });-->
+<!--        })-->
+<!--    </script>-->
+<!--    <script>-->
+<!--        (function($){-->
+<!--            var ms = {-->
+<!--                init:function(totalsubpageTmep,args){-->
+<!--                    return (function(){-->
+<!--                        ms.fillHtml(totalsubpageTmep,args);-->
+<!--                        ms.bindEvent(totalsubpageTmep,args);-->
+<!--                    })();-->
+<!--                },-->
+<!--                //填充html-->
+<!--                fillHtml:function(totalsubpageTmep,args){-->
+<!--                    return (function(){-->
+<!--                        totalsubpageTmep="";-->
+<!--                        // 页码大于等于4的时候，添加第一个页码元素-->
+<!--                        if(args.currPage!=1 && args.currPage>=4 && args.totalPage!=4) {-->
+<!--                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+1+"</a></li>";-->
+<!--                        }-->
+<!--                        /* 当前页码>4, 并且<=总页码，总页码>5，添加“···”*/-->
+<!--                        if(args.currPage-2>2 && args.currPage<=args.totalPage && args.totalPage>5) {-->
+<!--                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";-->
+<!--                        }-->
+<!--                        /* 当前页码的前两页 */-->
+<!--                        var start = args.currPage-2;-->
+<!--                        /* 当前页码的后两页 */-->
+<!--                        var end = args.currPage+2;-->
+
+<!--                        if((start>1 && args.currPage<4) || args.currPage==1) {-->
+<!--                            end++;-->
+<!--                        }-->
+<!--                        if(args.currPage>args.totalPage-4 && args.currPage>=args.totalPage) {-->
+<!--                            start&#45;&#45;;-->
+<!--                        }-->
+<!--                        for(; start<=end; start++) {-->
+<!--                            if(start<=args.totalPage && start>=1) {-->
+<!--                                totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+start+"</a></li>";-->
+<!--                            }-->
+<!--                        }-->
+<!--                        if(args.currPage+2<args.totalPage-1 && args.currPage>=1 && args.totalPage>5) {-->
+<!--                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_' data-go='' >...</a></li>";-->
+<!--                        }-->
+
+<!--                        if(args.currPage!=args.totalPage && args.currPage<args.totalPage-2 && args.totalPage!=4) {-->
+<!--                            totalsubpageTmep += "<li class='ali'><a href='javascript:void(0);' class='geraltTb_pager' data-go='' >"+args.totalPage+"</a></li>";-->
+<!--                        }-->
+<!--                        $(".pagination").html(totalsubpageTmep);-->
+<!--                    })();-->
+<!--                },-->
+<!--                //绑定事件-->
+<!--                bindEvent:function(totalsubpageTmep,args){-->
+<!--                    return (function(){-->
+<!--                        totalsubpageTmep.on("click","a.geraltTb_pager",function(event){-->
+<!--                            var current = parseInt($(this).text());-->
+<!--                            ms.fillHtml(totalsubpageTmep,{"currPage":current,"totalPage":args.totalPage,"turndown":args.turndown});-->
+<!--                            if(typeof(args.backFn)=="function"){-->
+<!--                                args.backFn(current);-->
+<!--                            }-->
+<!--                        });-->
+<!--                    })();-->
+<!--                }-->
+<!--            }-->
+<!--            $.fn.createPage = function(options){-->
+<!--                ms.init(this,options);-->
+<!--            }-->
+<!--        })(jQuery);-->
+<!--    </script>-->
+
+    <!--    模态框-->
+<!--    <script>-->
+<!--        $('#myModal').on('show.bs.modal', function (event) {-->
+<!--            var button = $(event.relatedTarget)-->
+<!--            var id = button.data('id')-->
+<!--            var name = button.data('name')-->
+<!--            var email = button.data('email')-->
+<!--            var age = button.data('age')-->
+<!--            var modal = $(this)-->
+<!--            modal.find('.modal-body id').val(id)-->
+<!--            modal.find('.modal-body name').val(name)-->
+<!--            modal.find('.modal-body email').val(email)-->
+<!--            modal.find('.modal-body age').val(age)-->
+<!--        })-->
+<!--    </script>-->
+</body>
+</html>
